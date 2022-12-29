@@ -1,11 +1,19 @@
 import discord
 import os
 from discord.ext import commands
+from discord import FFmpegPCMAudio
+from discord.utils import get
+from youtube_dl import YoutubeDL
+from keep_alive import keep_alive
+from discord.ext import commands
+
 import requests
 
 
+intents = discord.Intents.default()
+intents.members = True
 
-client = commands.Bot(command_prefix= '.')
+client = commands.Bot(command_prefix= '.', intents=intents
 
 
 
@@ -31,9 +39,9 @@ async def on_message(message):
   # Set the API endpoint URL and the request body
   url = "https://api.openai.com/v1/completions"
   data = {
-    "model": "text-davinci-002",
+    "model": "text-davinci-003",
     "prompt": incoming_msg,
-    "max_tokens": 4000,
+    "max_tokens": 2000,
     "temperature": 0
   }
   
@@ -80,7 +88,7 @@ async def leave(ctx):
 @client.event
 async def on_voice_state_update(member, before, after,):
     
-    ch = client.get_channel(1057151243564231500)
+    ch = client.get_channel(1057151243564351500)
     if before.channel is None and after.channel is not None:
       channel_name = after.channel.name
       await ch.send(f'{member.mention} has joined to {str(channel_name)}')
@@ -136,5 +144,4 @@ async def socials(ctx):
 
 
 my_secret = os.environ['token']
-
 client.run(my_secret)
